@@ -279,12 +279,12 @@ task usercontrol() {
 		}
 		else {*/
 
-			if (vexRT[Btn5U] == 1) {
+			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] <= 4950) {
 				motor[leftLiftMD] = LIFT_UP_VELOCITY;
 				motor[leftLiftU] = LIFT_UP_VELOCITY;
 				motor[rightLiftMD] = LIFT_UP_VELOCITY;
 				motor[rightLiftU] = LIFT_UP_VELOCITY;
-				} else if (vexRT[Btn5D] == 1) {
+				} else if (vexRT[Btn5D] == 1 && SensorValue[LiftP] >= 0 ) {
 				motor[leftLiftMD] = LIFT_DOWN_VELOCITY;
 				motor[leftLiftU] = LIFT_DOWN_VELOCITY;
 				motor[rightLiftMD] = LIFT_DOWN_VELOCITY;
