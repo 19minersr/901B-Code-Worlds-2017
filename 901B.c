@@ -1,4 +1,4 @@
-#pragma config(Sensor, in1,    LiftP,          sensorPotentiometer)
+#pragma config(Sensor, in8,    LiftP,          sensorPotentiometer)
 #pragma config(Sensor, dgtl5,  TR,             sensorQuadEncoder)
 #pragma config(Sensor, dgtl7,  TL,             sensorQuadEncoder)
 #pragma config(Motor,  port1,           topLeft,       tmotorVex393_HBridge, openLoop)
@@ -147,7 +147,7 @@ void clawOpen(long sec){
 
 void throw(bool move){
 	if(move){
-		if(SensorValue[LiftP] <= 4095){
+		if(SensorValue[LiftP] < 2600){
 			motor[leftLiftMD] = LIFT_UP_VELOCITY;
 			motor[leftLiftU] = LIFT_UP_VELOCITY;
 			motor[rightLiftMD] = LIFT_UP_VELOCITY;
@@ -279,12 +279,12 @@ task usercontrol() {
 		}
 		else {*/
 
-			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] <= 4950) {
+			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] < 2600) {
 				motor[leftLiftMD] = LIFT_UP_VELOCITY;
 				motor[leftLiftU] = LIFT_UP_VELOCITY;
 				motor[rightLiftMD] = LIFT_UP_VELOCITY;
 				motor[rightLiftU] = LIFT_UP_VELOCITY;
-				} else if (vexRT[Btn5D] == 1 && SensorValue[LiftP] >= 0 ) {
+				} else if (vexRT[Btn5D] == 1 && SensorValue[LiftP] > 0) {
 				motor[leftLiftMD] = LIFT_DOWN_VELOCITY;
 				motor[leftLiftU] = LIFT_DOWN_VELOCITY;
 				motor[rightLiftMD] = LIFT_DOWN_VELOCITY;
@@ -315,6 +315,7 @@ task usercontrol() {
 			if(claw == true){
 				motor[leftclaw] = FULL_POWER;
 				motor[rightclaw] = FULL_POWER;
+
 		}
 
 
