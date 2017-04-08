@@ -68,7 +68,7 @@ void backwardstraight(long encoderCounts){
 	SensorValue[TR] = 0;
 	SensorValue[TL] = 0;
 
-	if (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
+	while (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
 		){
 		motor[topRight] = -FULL_POWER;
 		motor[topLeft] =  -FULL_POWER;
@@ -76,12 +76,12 @@ void backwardstraight(long encoderCounts){
 		motor[bottomLeft] = -FULL_POWER;
 
 	}
-	else{
-	motor[topRight] = 0;
-	motor[topLeft] =  0;
-	motor[bottomRight]= 0;
-	motor[bottomLeft] = 0;
-}
+
+		motor[topRight] = 0;
+		motor[topLeft] =  0;
+		motor[bottomRight]= 0;
+		motor[bottomLeft] = 0;
+
 }
 
 //Turning Left
@@ -149,22 +149,25 @@ void clawOpen(long sec){
 
 void throw(bool move){
 	if(move){
-		if(SensorValue[LiftP] < 2520){
-		  motor[leftLiftMD] = LIFT_UP_VELOCITY;
+
+		while(SensorValue[LiftP] < 2520){
+			motor[leftLiftMD] = LIFT_UP_VELOCITY;
 			motor[leftLiftU] = LIFT_UP_VELOCITY;
 			motor[rightLiftMD] = LIFT_UP_VELOCITY;
 			motor[rightLiftU] = LIFT_UP_VELOCITY;
+			if(SensorValue[LiftP] > 2100){
+				clawOpen(0.2);
+			}
+			backwardstraight(calculate(80));
 		}
-		else{
-			motor[leftLiftMD] = 0;
-			motor[leftLiftU] = 0;
-			motor[rightLiftMD] = 0;
-			motor[rightLiftU] = 0;}
+		motor[leftLiftMD] = 0;
+		motor[leftLiftU] = 0;
+		motor[rightLiftMD] = 0;
+		motor[rightLiftU] = 0;
 
 
-		if(SensorValue[LiftP] > 2100){
-		clawOpen(0.2);
-	}
+
+
 		//backwardstraight(calculate(80));
 
 		/*
@@ -225,7 +228,7 @@ task autonomous() {
 
 	/*clawGrab(0.8);
 
-	forwardstraight(calculate(80)); //Subtract 20cm to take account for momentum
+	forwardstraight(calculate(30)); //Subtract 20cm to take account for momentum
 
 	wait1Msec(250);
 
@@ -269,62 +272,62 @@ task usercontrol() {
 
 		/*if(vexRT[Btn5U] == 0 && vexRT[Btn5D] == 0){
 		//	motor[leftLiftMD] = -SINGLE_STAR_CONST;
-			//motor[leftLiftU] =  -SINGLE_STAR_CONST;
-			//motor[rightLiftMD]= -SINGLE_STAR_CONST;
-			//motor[rightLiftMD] = -SINGLE_STAR_CONST;
+		//motor[leftLiftU] =  -SINGLE_STAR_CONST;
+		//motor[rightLiftMD]= -SINGLE_STAR_CONST;
+		//motor[rightLiftMD] = -SINGLE_STAR_CONST;
 
-			if (vexRT[Btn6U] == 1) {
-				motor[leftclaw] = FULL_POWER;
-				motor[rightclaw] = FULL_POWER;
-				} else if (vexRT[Btn6D] == 1) {
-				motor[leftclaw] = -FULL_POWER;
-				motor[rightclaw] = -FULL_POWER;
-				} else {
-				motor[leftclaw] = 0;
-				motor[rightclaw] = 0;
-			}
-			driveCode();
+		if (vexRT[Btn6U] == 1) {
+		motor[leftclaw] = FULL_POWER;
+		motor[rightclaw] = FULL_POWER;
+		} else if (vexRT[Btn6D] == 1) {
+		motor[leftclaw] = -FULL_POWER;
+		motor[rightclaw] = -FULL_POWER;
+		} else {
+		motor[leftclaw] = 0;
+		motor[rightclaw] = 0;
+		}
+		driveCode();
 		}
 		else {*/
 
-			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] < 2520) {
-				motor[leftLiftMD] = LIFT_UP_VELOCITY;
-				motor[leftLiftU] = LIFT_UP_VELOCITY;
-				motor[rightLiftMD] = LIFT_UP_VELOCITY;
-				motor[rightLiftU] = LIFT_UP_VELOCITY;
-				} else if (vexRT[Btn5D] == 1 && SensorValue[LiftP] > 0) {
-				motor[leftLiftMD] = LIFT_DOWN_VELOCITY;
-				motor[leftLiftU] = LIFT_DOWN_VELOCITY;
-				motor[rightLiftMD] = LIFT_DOWN_VELOCITY;
-				motor[rightLiftU] = LIFT_DOWN_VELOCITY;
-				} else {
-				motor[leftLiftMD] = 0;
-				motor[leftLiftU] = 0;
-				motor[rightLiftMD] = 0;
-				motor[rightLiftU] = 0;
-			}
+		if (vexRT[Btn5U] == 1 && SensorValue[LiftP] < 2520) {
+			motor[leftLiftMD] = LIFT_UP_VELOCITY;
+			motor[leftLiftU] = LIFT_UP_VELOCITY;
+			motor[rightLiftMD] = LIFT_UP_VELOCITY;
+			motor[rightLiftU] = LIFT_UP_VELOCITY;
+			} else if (vexRT[Btn5D] == 1 && SensorValue[LiftP] > 0) {
+			motor[leftLiftMD] = LIFT_DOWN_VELOCITY;
+			motor[leftLiftU] = LIFT_DOWN_VELOCITY;
+			motor[rightLiftMD] = LIFT_DOWN_VELOCITY;
+			motor[rightLiftU] = LIFT_DOWN_VELOCITY;
+			} else {
+			motor[leftLiftMD] = 0;
+			motor[leftLiftU] = 0;
+			motor[rightLiftMD] = 0;
+			motor[rightLiftU] = 0;
+		}
 
-			if (vexRT[Btn8L] == 1) {
+		if (vexRT[Btn8L] == 1) {
 
-				throw(false);
-
-			}
-			if (vexRT[Btn6U] == 1) {
-				motor[leftclaw] = FULL_POWER;
-				motor[rightclaw] = FULL_POWER;
-				claw = true;
-				} else if (vexRT[Btn6D] == 1) {
-				motor[leftclaw] = -FULL_POWER;
-				motor[rightclaw] = -FULL_POWER;
-				claw = false;
-				} else {
-				motor[leftclaw] = 0;
-				motor[rightclaw] = 0;
-			if(claw == true){
-				motor[leftclaw] = FULL_POWER;
-				motor[rightclaw] = FULL_POWER;
+			throw(false);
 
 		}
+		if (vexRT[Btn6U] == 1) {
+			motor[leftclaw] = FULL_POWER;
+			motor[rightclaw] = FULL_POWER;
+			//claw = true;
+			} else if (vexRT[Btn6D] == 1) {
+			motor[leftclaw] = -FULL_POWER;
+			motor[rightclaw] = -FULL_POWER;
+			//claw = false;
+			} else {
+			motor[leftclaw] = 0;
+			motor[rightclaw] = 0;
+		/*	if(claw == true){
+				motor[leftclaw] = FULL_POWER;
+				motor[rightclaw] = FULL_POWER;
+
+			}*/
 
 
 		}
