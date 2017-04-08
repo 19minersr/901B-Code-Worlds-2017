@@ -68,7 +68,7 @@ void backwardstraight(long encoderCounts){
 	SensorValue[TR] = 0;
 	SensorValue[TL] = 0;
 
-	while (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
+	if (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
 		){
 		motor[topRight] = -FULL_POWER;
 		motor[topLeft] =  -FULL_POWER;
@@ -76,10 +76,12 @@ void backwardstraight(long encoderCounts){
 		motor[bottomLeft] = -FULL_POWER;
 
 	}
+	else{
 	motor[topRight] = 0;
 	motor[topLeft] =  0;
 	motor[bottomRight]= 0;
 	motor[bottomLeft] = 0;
+}
 }
 
 //Turning Left
@@ -92,10 +94,10 @@ void turnL(long encoderCounts){
 
 	while (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
 		){
-		motor[topRight] = FULL_POWER;
-		motor[topLeft] =  -FULL_POWER;
-		motor[bottomRight]= FULL_POWER;
-		motor[bottomLeft] = -FULL_POWER;
+		motor[topRight] = -FULL_POWER;
+		motor[topLeft] =  FULL_POWER;
+		motor[bottomRight]= -FULL_POWER;
+		motor[bottomLeft] = FULL_POWER;
 
 
 	}
@@ -116,10 +118,10 @@ void turnR(long encoderCounts){
 
 	while (SensorValue[TR]*cos(45)*2.54 <= encoderCounts && abs(SensorValue[TL])*cos(45)*2.54 <= encoderCounts
 		){
-		motor[topRight] = -FULL_POWER;
-		motor[topLeft] =  FULL_POWER;
-		motor[bottomRight]= -FULL_POWER;
-		motor[bottomLeft] = FULL_POWER;
+		motor[topRight] = FULL_POWER;
+		motor[topLeft] =  -FULL_POWER;
+		motor[bottomRight]= FULL_POWER;
+		motor[bottomLeft] = -FULL_POWER;
 
 	}
 
@@ -131,24 +133,24 @@ void turnR(long encoderCounts){
 
 void clawGrab(long sec){
 
-	motor[leftclaw] = -FULL_POWER;
-	motor[rightclaw] = -FULL_POWER;
-	wait1Msec(sec*1000);
-
-}
-
-void clawOpen(long sec){
-
 	motor[leftclaw] = FULL_POWER;
 	motor[rightclaw] = FULL_POWER;
 	wait1Msec(sec*1000);
 
 }
 
+void clawOpen(long sec){
+
+	motor[leftclaw] = -FULL_POWER;
+	motor[rightclaw] = -FULL_POWER;
+	wait1Msec(sec*1000);
+
+}
+
 void throw(bool move){
 	if(move){
-		if(SensorValue[LiftP] < 2600){
-			motor[leftLiftMD] = LIFT_UP_VELOCITY;
+		if(SensorValue[LiftP] < 2520){
+		  motor[leftLiftMD] = LIFT_UP_VELOCITY;
 			motor[leftLiftU] = LIFT_UP_VELOCITY;
 			motor[rightLiftMD] = LIFT_UP_VELOCITY;
 			motor[rightLiftU] = LIFT_UP_VELOCITY;
@@ -157,9 +159,14 @@ void throw(bool move){
 			motor[leftLiftMD] = 0;
 			motor[leftLiftU] = 0;
 			motor[rightLiftMD] = 0;
-			motor[rightLiftU] = 0;
-		}
-		forwardstraight(calculate(80));
+			motor[rightLiftU] = 0;}
+
+
+		if(SensorValue[LiftP] > 2100){
+		clawOpen(0.2);
+	}
+		//backwardstraight(calculate(80));
+
 		/*
 		motor[leftLiftMD] = 0;
 		motor[leftLiftU] = 0;
@@ -214,22 +221,23 @@ void pre_auton() {
 }
 
 task autonomous() {
+	throw(true);
 
-	clawOpen(1);
+	/*clawGrab(0.8);
 
-	forwardstraight(calculate(180)); //Subtract 20cm to take account for momentum
+	forwardstraight(calculate(80)); //Subtract 20cm to take account for momentum
 
 	wait1Msec(250);
 
-	turnL(calculate(33));
+	turnL(calculate(35));
 
 	forwardstraight(calculate(40));
 
-	clawGrab(1);
+	clawGrab(0.5);*/
 
-	backwardstraight(calculate(100));
+	/*backwardstraight(calculate(80));
 
-	turnL(calculate(33));
+	turnL(calculate(35));
 
 	backwardstraight(calculate(40));
 
@@ -249,7 +257,7 @@ task autonomous() {
 
 	backwardstraight(calculate(50));
 
-	throw(true);
+	throw(true);*/
 
 
 }
@@ -279,7 +287,7 @@ task usercontrol() {
 		}
 		else {*/
 
-			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] < 2600) {
+			if (vexRT[Btn5U] == 1 && SensorValue[LiftP] < 2520) {
 				motor[leftLiftMD] = LIFT_UP_VELOCITY;
 				motor[leftLiftU] = LIFT_UP_VELOCITY;
 				motor[rightLiftMD] = LIFT_UP_VELOCITY;
