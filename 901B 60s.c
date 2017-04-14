@@ -312,8 +312,24 @@ task autonomous() {
 	throw(true,10);
 	clawGrab(0.6);
 	forwardstraight(calculate(70), false); //Subtract 10cm to take account for momentum
-	turnL(calculate(35));
-	forwardstraight(calculate(50), false);
+	turnL(calculate(70));
+	//throw and back
+	turnR(calculate(35);
+	//open claw 25%
+	forwardstraight(calculate(110), false);
+	//close claw
+	turnL(35);
+	//throw
+	backwardstraight(10);
+	//back
+	forwardstraight(50);
+	turnL(35);
+	//close claw
+	turnR(35);
+	//throw
+	backwardstraight(50);
+	//back
+
 	clawGrab(0.5);
 	SLift();
 	backwardstraight(calculate(50), false);
