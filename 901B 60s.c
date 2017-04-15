@@ -312,23 +312,70 @@ task autonomous() {
 	throw(true,10);
 	clawGrab(0.6);
 	forwardstraight(calculate(70), false); //Subtract 10cm to take account for momentum
-	turnL(calculate(70));
+	turnL(calculate(80));
 	//throw and back
-	turnR(calculate(35);
+	forwardstraight(calculate(5),false);
+	turnR(calculate(35));
 	//open claw 25%
 	forwardstraight(calculate(110), false);
 	//close claw
 	turnL(35);
 	//throw
-	backwardstraight(10);
+	backwardstraight(calculate(10),false);
 	//back
-	forwardstraight(50);
+	forwardstraight(calculate(60),false);
 	turnL(35);
+	forwardstraight(calculate(50),false);
 	//close claw
 	turnR(35);
 	//throw
-	backwardstraight(50);
+	backwardstraight(calculate(60),false);
 	//back
+	forwardstraight(calculate(5),false);
+	turnL(17); //45 deg
+	forwardstraight(calculate(75),false); //60 and 60
+	turnR(17);
+	forwardstraight(calculate(50),false);
+	//open claw
+	turnR(35);
+	forwardstraight(calculate(110),false);
+	//close and lift claw
+	turnR(35);
+	backwardstraight(calculate(120),false);
+	//throw and back
+	forwardstraight(calculate(5),false);
+	turnR(17);
+	forwardstraight(calculate(75),false);
+	turnL(17);
+	//open claw
+	forwardstraight(calculate(50),false);
+	//close and lift claw
+	backwardstraight(calculate(120),false);
+	//throw
+	//down and open
+	forwardstraight(calculate(10),false);
+	turnR(35);
+	//close and lift
+	turnL(35);
+	forwardstraight(calculate(60),false);
+	//open
+	forwardstraight(calculate(50),false);
+	//close and lift
+	backwardstraight(calculate(120),false);
+	//throw
+	forwardstraight(calculate(10),false);
+	turnL(35);
+	forwardstraight(calculate(240),false);
+	//open
+	forwardstraight(calculate(50),false);
+	turnR(35);
+	forwardstraight(calculate(60),false);
+	//open
+	forwardstraight(calculate(50),false);
+	//close
+	backwardstraight(calculate(120),false);
+	//throw
+
 
 	clawGrab(0.5);
 	SLift();
@@ -346,8 +393,17 @@ task autonomous() {
 	throw(true, 100);
 	LiftDown(true,100);
 }
+// |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+// |     _                                   _   |
+// |    | |                                 | |  |
+// | ___| | __ ___   _____  __ _ _   _  __ _| |_ |
+// |/ __| |/ _` \ \ / / __|/ _` | | | |/ _` | __||
+// |\__ \ | (_| |\ V /\__ \ (_| | |_| | (_| | |_ |
+// ||___/_|\__,_| \_/ |___/\__, |\__,_|\__,_|\__||
+// |                          | |                |
+// |                          |_|                |
+// |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 void driveCode();
-
 task usercontrol() {
 	while (true) {
 
