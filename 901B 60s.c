@@ -309,8 +309,8 @@ void pre_auton() {
 
 task autonomous() {
 	//Starting on the right side of the field
-	throw(true,10);
-	clawGrab(0.6);
+	//throw(true,10);
+	//clawGrab(0.6);
 	forwardstraight(calculate(70), false); //Subtract 10cm to take account for momentum
 	turnL(calculate(80));
 	//throw and back
@@ -375,8 +375,7 @@ task autonomous() {
 	//close
 	backwardstraight(calculate(120),false);
 	//throw
-
-
+	/*
 	clawGrab(0.5);
 	SLift();
 	backwardstraight(calculate(50), false);
@@ -391,7 +390,7 @@ task autonomous() {
 	clawGrab(0.5);
 	SLift();
 	throw(true, 100);
-	LiftDown(true,100);
+	LiftDown(true,100);*/
 }
 // |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 // |     _                                   _   |
